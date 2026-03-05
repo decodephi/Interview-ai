@@ -2,13 +2,25 @@ import React from 'react'
 
 import { Link } from 'react-router'
 import '../auth.form.scss'
+import { useAuth } from '../hooks/useAuth'
+import { useNavigate } from 'react-router'
+import { useState } from 'react'
 
 const Register = () => {
 
-     const handleSubmit = (e) => {
+    const { loading, handleRegister } = useAuth()
+    const navigate = useNavigate()
+
+    const [ username, setUsername ] = useState("")
+    const [ email, setEmail ] = useState("")
+    const [ password, setPassword ] = useState("")
+
+    
+
+     const handleSubmit = async (e) => {
         e.preventDefault()
-        // await handleLogin({email,password})
-        // navigate('/')
+        await handleRegister({username,email,password})
+        navigate('/login')
     }
 
     
@@ -20,19 +32,19 @@ const Register = () => {
                      <div className="input-group">
                         <label htmlFor="email">Username</label>
                         <input
-                            // onChange={(e) => { setEmail(e.target.value) }}
+                            onChange={(e) => { setUsername(e.target.value) }}
                             type="text" id="username" name='username' placeholder='Enter username' />
                     </div>
                     <div className="input-group">
                         <label htmlFor="email">Email</label>
                         <input
-                            // onChange={(e) => { setEmail(e.target.value) }}
+                            onChange={(e) => { setEmail(e.target.value) }}
                             type="email" id="email" name='email' placeholder='Enter email address' />
                     </div>
                     <div className="input-group">
                         <label htmlFor="password">Password</label>
                         <input
-                            // onChange={(e) => { setPassword(e.target.value) }}
+                            onChange={(e) => { setPassword(e.target.value) }}
                             type="password" id="password" name='password' placeholder='Enter password' />
                     </div>
                     <button className='button primary-button' >Register</button>
