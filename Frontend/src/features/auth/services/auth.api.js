@@ -62,59 +62,70 @@ import axios from "axios";
 
 // This correct clean approch to send data to backend and handle response in frontend
 
+import axios from "axios";
+
 const api = axios.create({
-    baseURL: 'http://localhost:3000/api/auth',
-    withCredentials: true
-})
+  baseURL: "http://localhost:3000/api/auth",
+  withCredentials: true,
+});
 
-export async function Register({username,email,password}) {
-    try { 
-        const response = await api.post('/register', {
-        username,
-        email,
-        password
-    },{
-        withCredentials: true
-    })
+/**
+ * Register user
+ */
+export async function register({ username, email, password }) {
+  try {
+    const response = await api.post("/register", {
+      username,
+      email,
+      password,
+    });
+
     return response.data;
-    }catch(error){
-        console.error("Registration failed:", error);
-    }
+  } catch (error) {
+    console.error("Registration failed:", error.response?.data || error.message);
+    throw error;
+  }
 }
 
-// Function to handle user login
+/**
+ * Login user
+ */
+export async function login({ email, password }) {
+  try {
+    const response = await api.post("/login", {
+      email,
+      password,
+    });
 
-export async function Login({email,password}) {
-    try {
-        const response = await api.post('/login', {
-            email,
-            password
-        }, {
-            withCredentials: true
-        });
-        return response.data;
-    } catch (error) {
-        console.error("Login failed:", error);
-    }
+    return response.data;
+  } catch (error) {
+    console.error("Login failed:", error.response?.data || error.message);
+    throw error;
+  }
 }
 
-// Function to handle user logout
-export async function Logout() {
-    try {
-        const response = await api.post('/logout');
-        return response.data;
-    } catch (error) {
-        console.error("Logout failed:", error);
-    }
+/**
+ * Logout user
+ */
+export async function logout() {
+  try {
+    const response = await api.post("/logout");
+    return response.data;
+  } catch (error) {
+    console.error("Logout failed:", error.response?.data || error.message);
+    throw error;
+  }
 }
 
-// Function getMe
-
+/**
+ * Get current logged-in user
+ */
 export async function getMe() {
-    try {
-        const response = await api.get('/get-me');
-        return response.data;
-    } catch (error) {
-        console.error("Failed to fetch user information:", error);
-    }
+  try {
+    const response = await api.get("/get-me");
+    return response.data;
+  } catch (error) {
+    console.error("Failed to fetch user information:", error.response?.data || error.message);
+    throw error;
+  }
 }
